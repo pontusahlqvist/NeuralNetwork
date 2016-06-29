@@ -17,9 +17,9 @@ int main(int argc, const char * argv[]) {
     std::vector<int> neuronCounts;
     neuronCounts.push_back(5);
     neuronCounts.push_back(2);
-    neuronCounts.push_back(1);
+    neuronCounts.push_back(3);
     int numInputs = 10;
-    NeuralNetwork ANN(neuronCounts, numInputs);
+    NeuralNetwork ANN(neuronCounts, numInputs, true);
     
     //inputs into Neural Network (in this example, all input features are present)
     std::vector<double> alternateInputs;

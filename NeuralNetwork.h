@@ -12,6 +12,8 @@
 #include <vector>
 #include "Layer.h"
 #include "SigmoidUnit.h"
+#include "ExponentialNeuron.h"
+#include "NormalizedLayer.h"
 
 /*
 
@@ -21,11 +23,11 @@ The user determines both the number of layers and the number of units in each la
 
 class NeuralNetwork{
 protected:
-    std::vector<Layer*> layers;
+    std::vector<BaseLayer*> layers;
     std::vector<double> output;
     int numInputs;
 public:
-    NeuralNetwork(std::vector<int> neuronCounts, int numInputs);
+    NeuralNetwork(std::vector<int> neuronCounts, int numInputs, bool normalized = false);
     std::vector<double> forwardPropagate(std::vector<double> inputs);
     void printWeightsByLayer();
     void printOutputs();

@@ -8,7 +8,7 @@
 
 #include "NeuralNetwork.h"
 
-NeuralNetwork::NeuralNetwork(std::vector<int> neuronCounts, int numInputs){
+NeuralNetwork::NeuralNetwork(std::vector<int> neuronCounts, int numInputs, bool normalized){
     this->numInputs = numInputs;
     for(int i = 0; i < neuronCounts.size(); i++){
         std::vector<Neuron*> neurons;
@@ -17,12 +17,21 @@ NeuralNetwork::NeuralNetwork(std::vector<int> neuronCounts, int numInputs){
             Neuron* n;
             if(i == 0){
                 n = new SigmoidUnit(numInputs); //input layer
-            } else{
+            } else if (i < neuronCounts.size() - 1 || !normalized){
                 n = new SigmoidUnit(neuronCounts[i-1]); //connect to previous layer
+            } else{ //gets executed on last layer if and only if normalized has been set to true (i.e. we want a normalized/softmax final layer)
+                n = new ExponentialNeuron(neuronCounts[i-1]); //connect to previous layer
             }
             neurons.push_back(n);
         }
-        Layer* layer = new Layer(neurons);
+        
+        BaseLayer* layer;
+        if(!normalized || i < neuronCounts.size() - 1){
+            layer = new Layer(neurons);
+        } else{ //last layer is a normalized layer iff normalized is set to true
+            layer = new NormalizedLayer(neurons);
+        }
+        
         if(i>0){
             layer->setPrevLayer(layers[i-1]); //link up with previous layer if it's not the input layer
         }
