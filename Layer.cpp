@@ -1,0 +1,48 @@
+//
+//  Layer.cpp
+//  NeuralNetwork
+//
+//  Created by Pontus Ahlqvist on 6/27/16.
+//  Copyright (c) 2016 PontusAhlqvist. All rights reserved.
+//
+
+#include "Layer.h"
+
+Layer::Layer(std::vector<Neuron*> neurons){
+    this->neurons = neurons; //TODO: make this more efficient. Perhaps pass by reference or by pointer
+    numUnits = (int)neurons.size();
+    this->outputs.resize(neurons.size());
+    prevLayer = 0;
+    nextLayer = 0;
+}
+
+void Layer::setPrevLayer(Layer *newPrevLayer){
+    this->prevLayer = newPrevLayer;
+    newPrevLayer->nextLayer = this;
+}
+
+void Layer::setNextLayer(Layer *newNextLayer){
+    this->nextLayer = newNextLayer;
+    newNextLayer->prevLayer = this;
+}
+
+std::vector<double> Layer::computeLayer(){
+    for(int i = 0; i < numUnits; i++){
+        outputs[i] = neurons[i]->compute(this->prevLayer->outputs);
+    }
+    return outputs;
+}
+
+std::vector<double> Layer::computeLayer(std::vector<double> alternateInputs){
+    for(int i = 0; i < numUnits; i++){
+        outputs[i] = neurons[i]->compute(alternateInputs);
+    }
+    return outputs;
+}
+
+void Layer::printWeightMatrix(){
+    for(int i = 0; i < numUnits; i++){
+        neurons[i]->printWeights();
+    }
+}
+
