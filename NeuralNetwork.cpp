@@ -48,6 +48,7 @@ Neuron* NeuralNetwork::generateNeuron(char type, int numInputs){
     } else if(type == 't'){
         n = new TanhNeuron(numInputs);
     } else{ //must have a default. Choose to be sigmoid
+        std::cout << "WARNING: Unrecognized neuron type '" << type << "'. Using default neuron (sigmoid) instead." << std::endl;
         n = new SigmoidNeuron(numInputs); //input layer
     }
     return n;
