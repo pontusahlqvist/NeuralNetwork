@@ -12,7 +12,7 @@
 #include <vector>
 #include <string>
 #include "Layer.h"
-#include "SigmoidUnit.h"
+#include "SigmoidNeuron.h"
 #include "ExponentialNeuron.h"
 #include "NormalizedLayer.h"
 

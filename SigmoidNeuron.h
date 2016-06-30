@@ -1,13 +1,13 @@
 //
-//  SigmoidUnit.h
+//  SigmoidNeuron.h
 //  NeuralNetwork
 //
 //  Created by Pontus Ahlqvist on 6/26/16.
 //  Copyright (c) 2016 PontusAhlqvist. All rights reserved.
 //
 
-#ifndef __NeuralNetwork__SigmoidUnit__
-#define __NeuralNetwork__SigmoidUnit__
+#ifndef __NeuralNetwork__SigmoidNeuron__
+#define __NeuralNetwork__SigmoidNeuron__
 
 #include <vector>
 #include <iostream>
@@ -20,10 +20,10 @@ This is a child class to the parent class Neuron. Here we implement the sigmoida
 
 */
 
-class SigmoidUnit: public Neuron{
+class SigmoidNeuron: public Neuron{
 public:
-    SigmoidUnit(int numInputs);
+    SigmoidNeuron(int numInputs);
     double compute(std::vector<double> inputs);
 };
 
-#endif /* defined(__NeuralNetwork__SigmoidUnit__) */
+#endif /* defined(__NeuralNetwork__SigmoidNeuron__) */

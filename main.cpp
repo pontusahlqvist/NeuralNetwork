@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include <string>
-#include "SigmoidUnit.h"
 #include "Layer.h"
 #include "NeuralNetwork.h"
 

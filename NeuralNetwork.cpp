@@ -45,10 +45,10 @@ Neuron* NeuralNetwork::generateNeuron(char type, int numInputs){
         n = new ExponentialNeuron(numInputs);
     } else if(type == 's'){
         std::cout << "generating new neuron: ";
-        n = new SigmoidUnit(numInputs); //input layer
+        n = new SigmoidNeuron(numInputs); //input layer
         std::cout << n << std::endl;
     } else{ //must have a default. Choose to be sigmoid
-        n = new SigmoidUnit(numInputs); //input layer
+        n = new SigmoidNeuron(numInputs); //input layer
     }
     return n;
 }
