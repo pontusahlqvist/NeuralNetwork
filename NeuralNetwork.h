@@ -10,6 +10,7 @@
 #define __NeuralNetwork__NeuralNetwork__
 
 #include <vector>
+#include <string>
 #include "Layer.h"
 #include "SigmoidUnit.h"
 #include "ExponentialNeuron.h"
@@ -26,8 +27,9 @@ protected:
     std::vector<BaseLayer*> layers;
     std::vector<double> output;
     int numInputs;
+    Neuron* generateNeuron(char type, int numInputs);
 public:
-    NeuralNetwork(std::vector<int> neuronCounts, int numInputs, bool normalized = false);
+    NeuralNetwork(std::vector<std::string> neuronTypes, int numInputs, bool normalized = false);
     std::vector<double> forwardPropagate(std::vector<double> inputs);
     void printWeightsByLayer();
     void printOutputs();

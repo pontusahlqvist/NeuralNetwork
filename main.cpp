@@ -7,19 +7,20 @@
 //
 
 #include <iostream>
+#include <string>
 #include "SigmoidUnit.h"
 #include "Layer.h"
 #include "NeuralNetwork.h"
 
 int main(int argc, const char * argv[]) {
 
-    //create the std::vector that will hold all the Neuron counts. This setup creates a network with 5 units in the first layer, 2 in the second, and 1 in the output layer. There are also 10 input features (as specified by numInputs) that are fed into the first (5 neuron) layer.
-    std::vector<int> neuronCounts;
-    neuronCounts.push_back(5);
-    neuronCounts.push_back(2);
-    neuronCounts.push_back(3);
+    //create the std::vector that will hold all the Neuron types. Each element of this list contains a string of character each of which identifies a type of neuron. For example, s = sigmoidal, e = exponential etc. 
+    std::vector<std::string> neuronTypes;
+    neuronTypes.push_back("sssss");
+    neuronTypes.push_back("ss");
+    neuronTypes.push_back("ee");
     int numInputs = 10;
-    NeuralNetwork ANN(neuronCounts, numInputs, true);
+    NeuralNetwork ANN(neuronTypes, numInputs, true);
     
     //inputs into Neural Network (in this example, all input features are present)
     std::vector<double> alternateInputs;

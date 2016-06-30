@@ -8,25 +8,23 @@
 
 #include "NeuralNetwork.h"
 
-NeuralNetwork::NeuralNetwork(std::vector<int> neuronCounts, int numInputs, bool normalized){
+NeuralNetwork::NeuralNetwork(std::vector<std::string> neuronTypes, int numInputs, bool normalized){
     this->numInputs = numInputs;
-    for(int i = 0; i < neuronCounts.size(); i++){
+    for(int i = 0; i < neuronTypes.size(); i++){
         std::vector<Neuron*> neurons;
-        for(int j = 0; j < neuronCounts[i]; j++){
+        for(int j = 0; j < neuronTypes[i].length(); j++){
         
             Neuron* n;
             if(i == 0){
-                n = new SigmoidUnit(numInputs); //input layer
-            } else if (i < neuronCounts.size() - 1 || !normalized){
-                n = new SigmoidUnit(neuronCounts[i-1]); //connect to previous layer
-            } else{ //gets executed on last layer if and only if normalized has been set to true (i.e. we want a normalized/softmax final layer)
-                n = new ExponentialNeuron(neuronCounts[i-1]); //connect to previous layer
+                n = generateNeuron(neuronTypes[i][j], numInputs);
+            } else if (i < neuronTypes.size() || !normalized){
+                n = generateNeuron(neuronTypes[i][j], (int)neuronTypes[i-1].length()); //connect to previous layer
             }
             neurons.push_back(n);
         }
         
         BaseLayer* layer;
-        if(!normalized || i < neuronCounts.size() - 1){
+        if(!normalized || i < neuronTypes.size() - 1){
             layer = new Layer(neurons);
         } else{ //last layer is a normalized layer iff normalized is set to true
             layer = new NormalizedLayer(neurons);
@@ -38,6 +36,23 @@ NeuralNetwork::NeuralNetwork(std::vector<int> neuronCounts, int numInputs, bool 
         layers.push_back(layer);
     }
 }
+
+Neuron* NeuralNetwork::generateNeuron(char type, int numInputs){
+    Neuron* n;
+    std::cout << n << std::endl;
+    std::cout << "type = " << type << std::endl;
+    if(type == 'e'){
+        n = new ExponentialNeuron(numInputs);
+    } else if(type == 's'){
+        std::cout << "generating new neuron: ";
+        n = new SigmoidUnit(numInputs); //input layer
+        std::cout << n << std::endl;
+    } else{ //must have a default. Choose to be sigmoid
+        n = new SigmoidUnit(numInputs); //input layer
+    }
+    return n;
+}
+
 std::vector<double> NeuralNetwork::forwardPropagate(std::vector<double> inputs){
 
     layers[0]->computeLayer(inputs); //input layer
