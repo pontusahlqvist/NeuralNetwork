@@ -39,14 +39,14 @@ NeuralNetwork::NeuralNetwork(std::vector<std::string> neuronTypes, int numInputs
 
 Neuron* NeuralNetwork::generateNeuron(char type, int numInputs){
     Neuron* n;
-    std::cout << n << std::endl;
-    std::cout << "type = " << type << std::endl;
     if(type == 'e'){
         n = new ExponentialNeuron(numInputs);
     } else if(type == 's'){
-        std::cout << "generating new neuron: ";
-        n = new SigmoidNeuron(numInputs); //input layer
-        std::cout << n << std::endl;
+        n = new SigmoidNeuron(numInputs);
+    } else if(type == 'l'){
+        n = new LinearNeuron(numInputs);
+    } else if(type == 't'){
+        n = new TanhNeuron(numInputs);
     } else{ //must have a default. Choose to be sigmoid
         n = new SigmoidNeuron(numInputs); //input layer
     }

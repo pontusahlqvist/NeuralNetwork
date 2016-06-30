@@ -14,6 +14,8 @@
 #include "Layer.h"
 #include "SigmoidNeuron.h"
 #include "ExponentialNeuron.h"
+#include "LinearNeuron.h"
+#include "TanhNeuron.h"
 #include "NormalizedLayer.h"
 
 /*

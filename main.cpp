@@ -13,11 +13,11 @@
 
 int main(int argc, const char * argv[]) {
 
-    //create the std::vector that will hold all the Neuron types. Each element of this list contains a string of character each of which identifies a type of neuron. For example, s = sigmoidal, e = exponential etc. 
+    //create the std::vector that will hold all the Neuron types. Each element of this list contains a string of character each of which identifies a type of neuron. For example, s = sigmoidal, e = exponential, l = linear, t = tanh.
     std::vector<std::string> neuronTypes;
     neuronTypes.push_back("sssss");
-    neuronTypes.push_back("ss");
-    neuronTypes.push_back("ee");
+    neuronTypes.push_back("tlse");
+    neuronTypes.push_back("lel");
     int numInputs = 10;
     NeuralNetwork ANN(neuronTypes, numInputs, true);
     
