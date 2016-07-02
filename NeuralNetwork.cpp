@@ -56,6 +56,11 @@ Neuron* NeuralNetwork::generateNeuron(char type, int numInputs){
 
 std::vector<double> NeuralNetwork::forwardPropagate(std::vector<double> inputs){
 
+    if(layers.size() == 1){
+        output = layers[0]->computeLayer(inputs); //input layer
+        return output;
+    }
+
     layers[0]->computeLayer(inputs); //input layer
     for(int i = 1; i < layers.size() - 1; i++){
         layers[i]->computeLayer();
