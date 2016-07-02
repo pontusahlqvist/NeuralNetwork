@@ -23,11 +23,11 @@ NeuralNetwork::NeuralNetwork(std::vector<std::string> neuronTypes, int numInputs
             neurons.push_back(n);
         }
         
-        BaseLayer* layer;
+        Layer* layer;
         if(!normalized || i < neuronTypes.size() - 1){
-            layer = new Layer(neurons);
+            layer = new Layer(neurons, false);
         } else{ //last layer is a normalized layer iff normalized is set to true
-            layer = new NormalizedLayer(neurons);
+            layer = new Layer(neurons, true);
         }
         
         if(i>0){

@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include <string>
-#include "Layer.h"
 #include "NeuralNetwork.h"
 
 int main(int argc, const char * argv[]) {

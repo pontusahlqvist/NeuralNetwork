@@ -16,7 +16,6 @@
 #include "ExponentialNeuron.h"
 #include "LinearNeuron.h"
 #include "TanhNeuron.h"
-#include "NormalizedLayer.h"
 
 /*
 
@@ -26,7 +25,7 @@ The user determines both the number of layers and the number of units in each la
 
 class NeuralNetwork{
 protected:
-    std::vector<BaseLayer*> layers;
+    std::vector<Layer*> layers;
     std::vector<double> output;
     int numInputs;
     Neuron* generateNeuron(char type, int numInputs);
