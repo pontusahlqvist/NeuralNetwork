@@ -21,13 +21,13 @@ int main(int argc, const char * argv[]) {
     NeuralNetwork ANN(neuronTypes, numInputs, true);
     
     //inputs into Neural Network (in this example, all input features are present)
-    std::vector<double> alternateInputs;
+    std::vector<double> inputs;
     for(int i = 0; i < numInputs; i++){
-        alternateInputs.push_back(1.0);
+        inputs.push_back(1.0);
     }
     
     //This is where we actually create the neural network and propagate the features above through it once.
-    std::vector<double> outputs = ANN.forwardPropagate(alternateInputs);
+    std::vector<double> outputs = ANN.forwardPropagate(inputs);
     ANN.printWeightsByLayer();
     ANN.printOutputs();
 
