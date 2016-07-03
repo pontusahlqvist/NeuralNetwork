@@ -32,6 +32,7 @@ protected:
 public:
     NeuralNetwork(std::vector<std::string> neuronTypes, int numInputs, bool normalized = false);
     std::vector<double> forwardPropagate(std::vector<double> inputs);
+    void backPropagate(std::vector<double> correctOutput);
     void printWeightsByLayer();
     void printOutputs();
 };

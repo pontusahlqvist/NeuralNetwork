@@ -15,6 +15,7 @@ class TanhNeuron: public Neuron{
 public:
     TanhNeuron(int numInputs);
     double compute(std::vector<double> inputs);
+    double computeDerivative();
 };
 
 #endif /* defined(__NeuralNetwork__TanhNeuron__) */

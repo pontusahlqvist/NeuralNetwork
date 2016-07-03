@@ -10,6 +10,11 @@
 
 ExponentialNeuron::ExponentialNeuron(int numInputs):Neuron(numInputs){}
 double ExponentialNeuron::compute(std::vector<double> inputs){
-    double activation = this->activation(inputs);
-    return exp(activation);
+    this->computeActivation(inputs);
+    output = exp(activation);
+    return output;
+}
+
+double ExponentialNeuron::computeDerivative(){
+    return output; //derivative is equal to the function itself
 }

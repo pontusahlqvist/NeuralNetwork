@@ -24,14 +24,20 @@ class Neuron{
 protected:
     std::vector<double> weights; //will contain the weights for this neuron (note that bias is among these)
     int numInputs; //does not include bias
-    double activation(std::vector<double> inputs);
-
+    double activation;
+    double output;
+    double computeActivation(std::vector<double> inputs);
+    double error;
 public:
     Neuron(int numInputs);
     ~Neuron();
     virtual double compute(std::vector<double> inputs) = 0;
+    virtual double computeDerivative() = 0;
     void incrementWeights(std::vector<double> deltas);
     void printWeights();
+    double computeErrorContribution(int inputIndex);
+    double computeError(std::vector<double> errorContributions);
+    double computeError(double correctOutput);
 };
 
 #endif /* defined(__NeuralNetwork__Neuron__) */

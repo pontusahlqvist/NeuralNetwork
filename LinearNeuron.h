@@ -15,6 +15,7 @@ class LinearNeuron: public Neuron{
 public:
     LinearNeuron(int numInputs);
     double compute(std::vector<double> inputs);
+    double computeDerivative();
 };
 
 #endif /* defined(__NeuralNetwork__LinearNeuron__) */

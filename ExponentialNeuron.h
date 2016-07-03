@@ -15,6 +15,7 @@ class ExponentialNeuron: public Neuron{
 public:
     ExponentialNeuron(int numInputs);
     double compute(std::vector<double> inputs);
+    double computeDerivative();
 };
 
 #endif /* defined(__NeuralNetwork__ExponentialNeuron__) */

@@ -69,6 +69,14 @@ std::vector<double> NeuralNetwork::forwardPropagate(std::vector<double> inputs){
     return output;
 }
 
+void NeuralNetwork::backPropagate(std::vector<double> correctOutput){
+    layers[layers.size()-1]->computeError(correctOutput);
+    for(int i = (int)layers.size() - 2; i >= 0; i--){ //move backwards through layers
+        layers[i]->computeError();
+    }
+}
+
+
 void NeuralNetwork::printWeightsByLayer(){
     for(int i = 0; i < layers.size(); i++){
         std::cout << "*** Layer " << i << " ***" << std::endl;

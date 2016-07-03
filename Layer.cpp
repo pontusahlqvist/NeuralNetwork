@@ -11,7 +11,9 @@
 Layer::Layer(std::vector<Neuron*> neurons, bool normalized){
     this->neurons = neurons; //TODO: make this more efficient. Perhaps pass by reference or by pointer
     numUnits = (int)neurons.size();
-    this->outputs.resize(neurons.size());
+    this->outputs.resize(numUnits);
+    this->errors.resize(numUnits);
+
     prevLayer = 0;
     nextLayer = 0;
     this->normalized = normalized;
@@ -51,3 +53,35 @@ std::vector<double> Layer::computeLayer(std::vector<double> alternateInputs){
     }
     return outputs;
 }
+
+std::vector<double> Layer::computeError(std::vector<double> alternateOutputs){
+    std::cout << "Errors:" << std::endl;
+    for(int i = 0; i < numUnits; i++){
+        errors[i] = neurons[i]->computeError(alternateOutputs[i]);
+        std::cout << errors[i] << " ";
+    }
+    std::cout << std::endl;
+    return errors;
+}
+
+std::vector<double> Layer::computeError(){
+    std::cout << "Errors:" << std::endl;
+    for(int i = 0; i < numUnits; i++){
+        std::vector<double> errorContributions = nextLayer->computeErrorContributionsForPrevLayer(i);
+        errors[i] = neurons[i]->computeError(errorContributions);
+        std::cout << errors[i] << " ";
+    }
+    std::cout << std::endl;
+    return errors;
+}
+
+std::vector<double> Layer::computeErrorContributionsForPrevLayer(int inputUnitIndex){
+    std::vector<double> errorContributions;
+    for(int i = 0; i < numUnits; i++){
+        errorContributions.push_back(neurons[i]->computeErrorContribution(inputUnitIndex));
+    }
+    return errorContributions;
+}
+
+
+

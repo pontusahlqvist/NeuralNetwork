@@ -11,6 +11,7 @@
 
 Neuron::Neuron(int numInputs){
     this->numInputs = numInputs;
+    error = 0.0;
     
     //Randomly initialize the weights from a normal distribution with standard deviation sigma and mean zero
     double sigma = 0.1;
@@ -25,13 +26,13 @@ Neuron::Neuron(int numInputs){
 
 Neuron::~Neuron(){}
 
-double Neuron::activation(std::vector<double> inputs){
-    double innerProduct = 0.0;
+double Neuron::computeActivation(std::vector<double> inputs){
+    activation = 0.0;
     for(int i = 0; i < numInputs; i++){
-        innerProduct += weights[i+1]*inputs[i];
+        activation += weights[i+1]*inputs[i];
     }
-    innerProduct += weights[0]; //bias input
-    return innerProduct;
+    activation += weights[0]; //bias input
+    return activation;
 }
 
 void Neuron::incrementWeights(std::vector<double> deltas){
@@ -47,3 +48,24 @@ void Neuron::printWeights(){
     }
     std::cout << weights[numInputs] << ")" << std::endl;
 }
+
+double Neuron::computeErrorContribution(int inputIndex){
+    return weights[inputIndex+1]*error;
+}
+
+double Neuron::computeError(std::vector<double> errorContributions){
+    error = 0.0;
+    for(int i = 0; i < errorContributions.size(); i++){
+        error += errorContributions[i];
+    }
+    error *= computeDerivative();
+    return error;
+}
+
+double Neuron::computeError(double correctOutput){
+    error = output-correctOutput;
+    return error; //should only be used for output layers
+}
+
+
+

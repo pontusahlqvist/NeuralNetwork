@@ -11,6 +11,12 @@
 SigmoidNeuron::SigmoidNeuron(int numInputs):Neuron(numInputs){}
 
 double SigmoidNeuron::compute(std::vector<double> inputs){
-    double activation = this->activation(inputs);
-    return 1.0/(1.0 + exp(-activation));
+    this->computeActivation(inputs);
+    output = 1.0/(1.0 + exp(-activation));
+    return output;
+}
+
+double SigmoidNeuron::computeDerivative(){
+    double expActivation = exp(-activation);
+    return expActivation/((1+expActivation)*(1+expActivation));
 }

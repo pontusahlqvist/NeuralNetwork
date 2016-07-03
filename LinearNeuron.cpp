@@ -10,6 +10,11 @@
 
 LinearNeuron::LinearNeuron(int numInputs):Neuron(numInputs){}
 double LinearNeuron::compute(std::vector<double> inputs){
-    double activation = this->activation(inputs);
-    return activation;
+    this->computeActivation(inputs);
+    output = activation;
+    return output;
+}
+
+double LinearNeuron::computeDerivative(){
+    return 1.0; //derivative of identity function is just 1.
 }

@@ -28,6 +28,7 @@ protected:
 
     std::vector<Neuron*> neurons;
     std::vector<double> outputs;
+    std::vector<double> errors;
 public:
     Layer(std::vector<Neuron*> neurons, bool normalized);
     void setPrevLayer(Layer* newPrevLayer);
@@ -35,7 +36,9 @@ public:
     virtual std::vector<double> computeLayer();
     virtual std::vector<double> computeLayer(std::vector<double> alternateInputs); //this allows the layer to also be used as an input layer.
     void printWeightMatrix();
-
+    std::vector<double> computeError();
+    std::vector<double> computeError(std::vector<double> alternateOutputs); //this allows the layer to also be used as an output layer.
+    std::vector<double> computeErrorContributionsForPrevLayer(int inputUnitIndex); //this computes the contribution of each neuron's error for use in prior layer
 };
 
 #endif /* defined(__NeuralNetwork__Layer__) */
