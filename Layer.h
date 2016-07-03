@@ -27,8 +27,8 @@ protected:
     bool normalized;
 
     std::vector<Neuron*> neurons;
-public:
     std::vector<double> outputs;
+public:
     Layer(std::vector<Neuron*> neurons, bool normalized);
     void setPrevLayer(Layer* newPrevLayer);
     void setNextLayer(Layer* newNextLayer);
