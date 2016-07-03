@@ -91,3 +91,17 @@ void NeuralNetwork::printOutputs(){
     }
     std::cout << std::endl;
 }
+
+void NeuralNetwork::updateWeights(std::vector<double> inputs, double learningRate){
+    layers[0]->updateWeightsInLayer(inputs, learningRate);
+    for(int i = 1; i < layers.size(); i++){
+        layers[i]->updateWeightsInLayer(learningRate);
+    }
+}
+
+void NeuralNetwork::train(std::vector<double> inputs, std::vector<double> outputs, double learningRate){
+    //forward prop, backward prop, update weights
+    this->forwardPropagate(inputs);
+    this->backPropagate(outputs);
+    this->updateWeights(inputs, learningRate);
+}

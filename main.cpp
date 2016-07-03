@@ -14,7 +14,8 @@ int main(int argc, const char * argv[]) {
 
     //create the std::vector that will hold all the Neuron types. Each element of this list contains a string of character each of which identifies a type of neuron. For example, s = sigmoidal, e = exponential, l = linear, t = tanh.
     std::vector<std::string> neuronTypes;
-    neuronTypes.push_back("ss");
+    neuronTypes.push_back("s");
+    neuronTypes.push_back("sss");
     neuronTypes.push_back("ss");
     int numInputs = 3;
     NeuralNetwork ANN(neuronTypes, numInputs, false);
@@ -26,16 +27,18 @@ int main(int argc, const char * argv[]) {
     }
     
     //This is where we actually create the neural network and propagate the features above through it once.
-    std::vector<double> outputs = ANN.forwardPropagate(inputs);
     std::vector<double> correctOutput;
     for(int i = 0; i < neuronTypes[neuronTypes.size()-1].length(); i++){
-        correctOutput.push_back(0.5);
+        correctOutput.push_back(0.6);
     }
-    
-    ANN.printWeightsByLayer();
-    ANN.printOutputs();
-    std::cout << "\n" << std::endl;
-    ANN.backPropagate(correctOutput);
+    for(int i = 0; i < 200; i++){
+        std::cout << "*********  New Pass:  **********" << std::endl;
+        std::vector<double> outputs = ANN.forwardPropagate(inputs);
+        ANN.printWeightsByLayer();
+        ANN.printOutputs();
+        std::cout << "\n" << std::endl;
+        ANN.train(inputs, correctOutput, 1);
+    }
 
     return 0;
 }

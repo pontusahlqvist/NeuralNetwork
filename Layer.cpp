@@ -83,5 +83,17 @@ std::vector<double> Layer::computeErrorContributionsForPrevLayer(int inputUnitIn
     return errorContributions;
 }
 
+void Layer::updateWeightsInLayer(std::vector<double> inputs, double learningRate){
+    for(int i = 0; i < numUnits; i++){
+        neurons[i]->incrementWeights(inputs, learningRate);
+    }
+}
+
+void Layer::updateWeightsInLayer(double learningRate){
+    if(prevLayer != 0){
+        updateWeightsInLayer(prevLayer->outputs, learningRate);
+    }
+}
+
 
 
