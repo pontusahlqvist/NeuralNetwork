@@ -10,12 +10,35 @@
 #include <string>
 #include "NeuralNetwork.h"
 
+//This function takes the input string denoting the layer architecture and splits it on ',' and returns a vector of strings to be used by the ANN.
+std::vector<std::string> splitIntoLayers(const char* input){
+    std::vector<std::string> layerStrings;
+    std::string tempString = "";
+    for(const char* c = input; *c != '\0'; c++){
+        if(*c == ','){
+            layerStrings.push_back(tempString);
+            tempString = "";
+        } else{
+            tempString += *c;
+        }
+    }
+    if(tempString != ""){ //just in case someone terminated the list of layers with a comma: "ss,s,sss,"
+        layerStrings.push_back(tempString);
+    }
+    return layerStrings;
+}
+
 int main(int argc, const char * argv[]) {
 
     //create the std::vector that will hold all the Neuron types. Each element of this list contains a string of character each of which identifies a type of neuron. For example, s = sigmoidal, e = exponential, l = linear, t = tanh.
     std::vector<std::string> neuronTypes;
-    neuronTypes.push_back("ss");
-    neuronTypes.push_back("s");
+    std::string neuronsInLayer = "";
+    if(argc == 1){ //use default network if one isn't specified using the command line
+        neuronTypes.push_back("ss");
+        neuronTypes.push_back("s");
+    } else{
+        neuronTypes = splitIntoLayers(argv[1]);
+    }
 
     //XOR example
     int numInputs = 2;
