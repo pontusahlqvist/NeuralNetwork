@@ -48,11 +48,11 @@ int main(int argc, const char * argv[]) {
     std::vector<double> correctOutput1, correctOutput2, correctOutput3, correctOutput4;
     input1.push_back(0.0);
     input1.push_back(0.0);
-    correctOutput1.push_back(0.0);
+    correctOutput1.push_back(1.0);
     
     input2.push_back(0.0);
     input2.push_back(1.0);
-    correctOutput2.push_back(1.0);
+    correctOutput2.push_back(0.0);
     
     input3.push_back(1.0);
     input3.push_back(0.0);
