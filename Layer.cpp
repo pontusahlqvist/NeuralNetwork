@@ -55,23 +55,17 @@ std::vector<double> Layer::computeLayer(std::vector<double> alternateInputs){
 }
 
 std::vector<double> Layer::computeError(std::vector<double> alternateOutputs){
-    std::cout << "Errors:" << std::endl;
     for(int i = 0; i < numUnits; i++){
         errors[i] = neurons[i]->computeError(alternateOutputs[i]);
-        std::cout << errors[i] << " ";
     }
-    std::cout << std::endl;
     return errors;
 }
 
 std::vector<double> Layer::computeError(){
-    std::cout << "Errors:" << std::endl;
     for(int i = 0; i < numUnits; i++){
         std::vector<double> errorContributions = nextLayer->computeErrorContributionsForPrevLayer(i);
         errors[i] = neurons[i]->computeError(errorContributions);
-        std::cout << errors[i] << " ";
     }
-    std::cout << std::endl;
     return errors;
 }
 
