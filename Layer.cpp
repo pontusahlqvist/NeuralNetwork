@@ -19,6 +19,12 @@ Layer::Layer(std::vector<Neuron*> neurons, bool normalized){
     this->normalized = normalized;
 }
 
+Layer::~Layer(){
+    for(int i = 0; i < numUnits; i++){
+        delete neurons[i];
+    }
+}
+
 void Layer::setPrevLayer(Layer *newPrevLayer){
     this->prevLayer = newPrevLayer;
     newPrevLayer->nextLayer = this;

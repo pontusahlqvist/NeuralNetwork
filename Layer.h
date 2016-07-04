@@ -31,6 +31,7 @@ protected:
     std::vector<double> errors;
 public:
     Layer(std::vector<Neuron*> neurons, bool normalized);
+    ~Layer();
     void setPrevLayer(Layer* newPrevLayer);
     void setNextLayer(Layer* newNextLayer);
     virtual std::vector<double> computeLayer();

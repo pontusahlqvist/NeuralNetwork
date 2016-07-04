@@ -33,6 +33,7 @@ protected:
     void updateWeights(std::vector<double> inputs, double learningRate);
 public:
     NeuralNetwork(std::vector<std::string> neuronTypes, int numInputs, bool normalized = false);
+    ~NeuralNetwork();
     std::vector<double> forwardPropagate(std::vector<double> inputs);
     void train(std::vector<double> inputs, std::vector<double> outputs, double learningRate);
     void printWeightsByLayer();

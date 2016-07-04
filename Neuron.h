@@ -30,7 +30,7 @@ protected:
     double error;
 public:
     Neuron(int numInputs);
-    ~Neuron();
+    virtual ~Neuron();
     virtual double compute(std::vector<double> inputs) = 0;
     virtual double computeDerivative() = 0;
     void incrementWeights(std::vector<double> inputs, double learningRate);

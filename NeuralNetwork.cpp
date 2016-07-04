@@ -37,6 +37,12 @@ NeuralNetwork::NeuralNetwork(std::vector<std::string> neuronTypes, int numInputs
     }
 }
 
+NeuralNetwork::~NeuralNetwork(){
+    for(int i = 0; i < layers.size(); i++){
+        delete layers[i];
+    }
+}
+
 Neuron* NeuralNetwork::generateNeuron(char type, int numInputs){
     Neuron* n;
     if(type == 'e'){
