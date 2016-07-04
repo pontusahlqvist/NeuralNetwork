@@ -36,8 +36,9 @@ double Neuron::computeActivation(std::vector<double> inputs){
 }
 
 void Neuron::incrementWeights(std::vector<double> inputs, double learningRate){
+    weights[0] += -learningRate*1*error;
     for(int i = 0; i <= numInputs; i++){ //note that bias is also among weights
-        weights[i] += -learningRate*inputs[i]*error;
+        weights[i+1] += -learningRate*inputs[i]*error;
     } 
 }
 
