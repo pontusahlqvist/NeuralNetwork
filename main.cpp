@@ -14,31 +14,62 @@ int main(int argc, const char * argv[]) {
 
     //create the std::vector that will hold all the Neuron types. Each element of this list contains a string of character each of which identifies a type of neuron. For example, s = sigmoidal, e = exponential, l = linear, t = tanh.
     std::vector<std::string> neuronTypes;
-    neuronTypes.push_back("s");
-    neuronTypes.push_back("sss");
     neuronTypes.push_back("ss");
-    int numInputs = 3;
+    neuronTypes.push_back("s");
+
+    //XOR example
+    int numInputs = 2;
     NeuralNetwork ANN(neuronTypes, numInputs, false);
+
+    std::vector<double> input1, input2, input3, input4;
+    std::vector<double> correctOutput1, correctOutput2, correctOutput3, correctOutput4;
+    input1.push_back(0.0);
+    input1.push_back(0.0);
+    correctOutput1.push_back(0.0);
     
-    //inputs into Neural Network (in this example, all input features are present)
-    std::vector<double> inputs;
-    for(int i = 0; i < numInputs; i++){
-        inputs.push_back(1.0);
-    }
+    input2.push_back(0.0);
+    input2.push_back(1.0);
+    correctOutput2.push_back(1.0);
     
-    //This is where we actually create the neural network and propagate the features above through it once.
-    std::vector<double> correctOutput;
-    for(int i = 0; i < neuronTypes[neuronTypes.size()-1].length(); i++){
-        correctOutput.push_back(0.6);
+    input3.push_back(1.0);
+    input3.push_back(0.0);
+    correctOutput3.push_back(0.0);
+
+    input4.push_back(1.0);
+    input4.push_back(1.0);
+    correctOutput4.push_back(1.0);
+    
+    std::cout << "*********  Pre-training Prediction **********" << std::endl;
+    ANN.printWeightsByLayer();
+    ANN.forwardPropagate(input1);
+    ANN.printOutputs();
+    ANN.forwardPropagate(input2);
+    ANN.printOutputs();
+    ANN.forwardPropagate(input3);
+    ANN.printOutputs();
+    ANN.forwardPropagate(input4);
+    ANN.printOutputs();
+
+    //train on the data set (XOR)
+    int numIters = 10000;
+    double learningRate = 0.1;
+    for(int i = 0; i < numIters; i++){
+        ANN.train(input1, correctOutput1, learningRate);
+        ANN.train(input2, correctOutput2, learningRate);
+        ANN.train(input3, correctOutput3, learningRate);
+        ANN.train(input4, correctOutput4, learningRate);
     }
-    for(int i = 0; i < 200; i++){
-        std::cout << "*********  New Pass:  **********" << std::endl;
-        std::vector<double> outputs = ANN.forwardPropagate(inputs);
-        ANN.printWeightsByLayer();
-        ANN.printOutputs();
-        std::cout << "\n" << std::endl;
-        ANN.train(inputs, correctOutput, 1);
-    }
+
+    std::cout << "\n\n*********  Post-training Prediction  **********" << std::endl;
+    ANN.printWeightsByLayer();
+    ANN.forwardPropagate(input1);
+    ANN.printOutputs();
+    ANN.forwardPropagate(input2);
+    ANN.printOutputs();
+    ANN.forwardPropagate(input3);
+    ANN.printOutputs();
+    ANN.forwardPropagate(input4);
+    ANN.printOutputs();
 
     return 0;
 }
