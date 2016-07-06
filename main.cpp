@@ -9,17 +9,18 @@
 #include <iostream>
 #include <string>
 #include "NeuralNetwork.h"
+#include "OptionParser.h"
 
 //This function takes the input string denoting the layer architecture and splits it on ',' and returns a vector of strings to be used by the ANN.
-std::vector<std::string> splitIntoLayers(const char* input){
+std::vector<std::string> splitIntoLayers(std::string input){
     std::vector<std::string> layerStrings;
     std::string tempString = "";
-    for(const char* c = input; *c != '\0'; c++){
-        if(*c == ','){
+    for(int i = 0; i < input.length(); i++){
+        if(input[i] == ','){
             layerStrings.push_back(tempString);
             tempString = "";
         } else{
-            tempString += *c;
+            tempString += input[i];
         }
     }
     if(tempString != ""){ //just in case someone terminated the list of layers with a comma: "ss,s,sss,"
@@ -30,14 +31,20 @@ std::vector<std::string> splitIntoLayers(const char* input){
 
 int main(int argc, const char * argv[]) {
 
+    OptionParser optParser;
+    optParser.add_option("-n", "Network configuration. This is a string of comma separated values each of which indicates the neuron configuration within a given layer. For example the string sss,st,l corresponds to three layers the first of which has 3 sigmoid units, the second of which has one sigmoid and one tanh unit, and a final output layer with a single linear unit.");
+    if(!optParser.parse_options(argc, argv)){
+        return 0; //exit program after either '-h' was passed or another error occurred.
+    }
+
     //create the std::vector that will hold all the Neuron types. Each element of this list contains a string of character each of which identifies a type of neuron. For example, s = sigmoidal, e = exponential, l = linear, t = tanh.
     std::vector<std::string> neuronTypes;
-    std::string neuronsInLayer = "";
     if(argc == 1){ //use default network if one isn't specified using the command line
         neuronTypes.push_back("ss");
         neuronTypes.push_back("s");
     } else{
-        neuronTypes = splitIntoLayers(argv[1]);
+        std::cout << optParser.getValue("-n");
+        neuronTypes = splitIntoLayers(optParser.getValue("-n"));
     }
 
     //XOR example
