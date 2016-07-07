@@ -53,6 +53,9 @@ int main(int argc, const char * argv[]) {
 
     std::vector<double> input1, input2, input3, input4;
     std::vector<double> correctOutput1, correctOutput2, correctOutput3, correctOutput4;
+    std::vector< std::vector<double> > inputMatrix;
+    std::vector< std::vector<double> > outputMatrix;
+
     input1.push_back(0.0);
     input1.push_back(0.0);
     correctOutput1.push_back(1.0);
@@ -68,6 +71,15 @@ int main(int argc, const char * argv[]) {
     input4.push_back(1.0);
     input4.push_back(1.0);
     correctOutput4.push_back(1.0);
+
+    inputMatrix.push_back(input1);
+    inputMatrix.push_back(input2);
+    inputMatrix.push_back(input3);
+    inputMatrix.push_back(input4);
+    outputMatrix.push_back(correctOutput1);
+    outputMatrix.push_back(correctOutput2);
+    outputMatrix.push_back(correctOutput3);
+    outputMatrix.push_back(correctOutput4);
     
     std::cout << "*********  Pre-training Prediction **********" << std::endl;
     ANN.printWeightsByLayer();
@@ -81,14 +93,8 @@ int main(int argc, const char * argv[]) {
     ANN.printOutputs();
 
     //train on the data set (XOR)
-    int numIters = 10000;
     double learningRate = 0.1;
-    for(int i = 0; i < numIters; i++){
-        ANN.train(input1, correctOutput1, learningRate);
-        ANN.train(input2, correctOutput2, learningRate);
-        ANN.train(input3, correctOutput3, learningRate);
-        ANN.train(input4, correctOutput4, learningRate);
-    }
+    ANN.train(inputMatrix, outputMatrix, learningRate);
 
     std::cout << "\n\n*********  Post-training Prediction  **********" << std::endl;
     ANN.printWeightsByLayer();

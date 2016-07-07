@@ -105,9 +105,18 @@ void NeuralNetwork::updateWeights(std::vector<double> inputs, double learningRat
     }
 }
 
-void NeuralNetwork::train(std::vector<double> inputs, std::vector<double> outputs, double learningRate){
+void NeuralNetwork::trainOnDataPoint(std::vector<double> inputs, std::vector<double> outputs, double learningRate){
     //forward prop, backward prop, update weights
     this->forwardPropagate(inputs);
     this->backPropagate(outputs);
     this->updateWeights(inputs, learningRate);
+}
+
+void NeuralNetwork::train(std::vector<std::vector<double> > inputMatrix, std::vector<std::vector<double> > outputMatrix, double learningRate){
+    int numIters = 10000;
+    for(int iter = 0; iter < numIters; iter++){
+        for(int trainingIndex = 0; trainingIndex < inputMatrix.size(); trainingIndex++){
+            this->trainOnDataPoint(inputMatrix[trainingIndex], outputMatrix[trainingIndex], learningRate);
+        }
+    }
 }

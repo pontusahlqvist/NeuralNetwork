@@ -31,11 +31,12 @@ protected:
     Neuron* generateNeuron(char type, int numInputs);
     void backPropagate(std::vector<double> correctOutput);
     void updateWeights(std::vector<double> inputs, double learningRate);
+    void train(std::vector< std::vector<double> > inputMatrix, std::vector< std::vector<double> > outputMatrix, double learningRate);
 public:
     NeuralNetwork(std::vector<std::string> neuronTypes, int numInputs, bool normalized = false);
     ~NeuralNetwork();
     std::vector<double> forwardPropagate(std::vector<double> inputs);
-    void train(std::vector<double> inputs, std::vector<double> outputs, double learningRate);
+    void trainOnDataPoint(std::vector<double> inputs, std::vector<double> outputs, double learningRate);
     void printWeightsByLayer();
     void printOutputs();
 };
