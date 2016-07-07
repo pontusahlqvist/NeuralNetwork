@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
 #include "NeuralNetwork.h"
 #include "OptionParser.h"
 
@@ -51,61 +52,65 @@ int main(int argc, const char * argv[]) {
     int numInputs = 2;
     NeuralNetwork ANN(neuronTypes, numInputs, false);
 
-    std::vector<double> input1, input2, input3, input4;
-    std::vector<double> correctOutput1, correctOutput2, correctOutput3, correctOutput4;
     std::vector< std::vector<double> > inputMatrix;
     std::vector< std::vector<double> > outputMatrix;
+    std::vector<double> input1, input2, input3, input4;
+    std::vector<double> correctOutput1, correctOutput2, correctOutput3, correctOutput4;
+    std::ifstream trainingFile("/Users/Pontus/Desktop/Other Stuff/MLPrep/untitled folder 2/NeuralNetwork/NeuralNetwork/training.csv");
+    std::string line;
+    while(getline(trainingFile, line)){
+        //structure is x_1,...,x_n y_1,y_2,...,y_m (comma and space separated)
+        int spacePosition = (int)line.find(" ");
+        int lastCommaPosition = -1;
+        int nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
 
-    input1.push_back(0.0);
-    input1.push_back(0.0);
-    correctOutput1.push_back(1.0);
-    
-    input2.push_back(0.0);
-    input2.push_back(1.0);
-    correctOutput2.push_back(0.0);
-    
-    input3.push_back(1.0);
-    input3.push_back(0.0);
-    correctOutput3.push_back(0.0);
+        std::cout << "line from file: " << line << std::endl;
 
-    input4.push_back(1.0);
-    input4.push_back(1.0);
-    correctOutput4.push_back(1.0);
+        //get inputs
+        std::vector<double> input;
+        while(nextCommaPosition != std::string::npos && nextCommaPosition < spacePosition){
+            input.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
+            lastCommaPosition = nextCommaPosition;
+            nextCommaPosition = (int)line.find(",",nextCommaPosition+1);
+            std::cout << input[input.size()-1] << " ";
+        }
+        input.push_back(stod(line.substr(lastCommaPosition+1,spacePosition)));
+        std::cout << input[input.size()-1] << std::endl;
 
-    inputMatrix.push_back(input1);
-    inputMatrix.push_back(input2);
-    inputMatrix.push_back(input3);
-    inputMatrix.push_back(input4);
-    outputMatrix.push_back(correctOutput1);
-    outputMatrix.push_back(correctOutput2);
-    outputMatrix.push_back(correctOutput3);
-    outputMatrix.push_back(correctOutput4);
+        //get outputs
+        std::vector<double> output;
+        lastCommaPosition = spacePosition;
+        nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
+        while(nextCommaPosition != std::string::npos && nextCommaPosition < line.length()){
+            output.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
+            std::cout << output[output.size()-1] << " ";
+        }
+        output.push_back(stod(line.substr(lastCommaPosition+1)));
+        std::cout << output[output.size()-1] << std::endl;
+
+        //add these training data points to the training matrices
+        inputMatrix.push_back(input);
+        outputMatrix.push_back(output);
+        std::cout << inputMatrix.size() << ", " << outputMatrix.size() << " - " << std::endl;
+    }
+    trainingFile.close();
     
     std::cout << "*********  Pre-training Prediction **********" << std::endl;
     ANN.printWeightsByLayer();
-    ANN.forwardPropagate(input1);
-    ANN.printOutputs();
-    ANN.forwardPropagate(input2);
-    ANN.printOutputs();
-    ANN.forwardPropagate(input3);
-    ANN.printOutputs();
-    ANN.forwardPropagate(input4);
-    ANN.printOutputs();
-
+    for(int i = 0; i < inputMatrix.size(); i++){
+        ANN.forwardPropagate(inputMatrix[i]);
+        ANN.printOutputs();
+    }
     //train on the data set (XOR)
     double learningRate = 0.1;
     ANN.train(inputMatrix, outputMatrix, learningRate);
 
     std::cout << "\n\n*********  Post-training Prediction  **********" << std::endl;
     ANN.printWeightsByLayer();
-    ANN.forwardPropagate(input1);
-    ANN.printOutputs();
-    ANN.forwardPropagate(input2);
-    ANN.printOutputs();
-    ANN.forwardPropagate(input3);
-    ANN.printOutputs();
-    ANN.forwardPropagate(input4);
-    ANN.printOutputs();
+    for(int i = 0; i < inputMatrix.size(); i++){
+        ANN.forwardPropagate(inputMatrix[i]);
+        ANN.printOutputs();
+    }
 
     return 0;
 }
