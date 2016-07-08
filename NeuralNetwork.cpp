@@ -122,79 +122,18 @@ void NeuralNetwork::train(std::vector<std::vector<double> > inputMatrix, std::ve
 }
 
 void NeuralNetwork::train(std::string fpath, double learningRate){
-    std::vector< std::vector<double> > inputMatrix;
-    std::vector< std::vector<double> > outputMatrix;
-    std::ifstream trainingFile(fpath);
-    std::string line;
-    while(getline(trainingFile, line)){
-        //structure is x_1,...,x_n y_1,y_2,...,y_m (comma and space separated)
-        int spacePosition = (int)line.find(" ");
-        int lastCommaPosition = -1;
-        int nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
-
-        //get inputs
-        std::vector<double> input;
-        while(nextCommaPosition != std::string::npos && nextCommaPosition < spacePosition){
-            input.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
-            lastCommaPosition = nextCommaPosition;
-            nextCommaPosition = (int)line.find(",",nextCommaPosition+1);
-        }
-        input.push_back(stod(line.substr(lastCommaPosition+1,spacePosition)));
-
-        //get outputs
-        std::vector<double> output;
-        lastCommaPosition = spacePosition;
-        nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
-        while(nextCommaPosition != std::string::npos && nextCommaPosition < line.length()){
-            output.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
-        }
-        output.push_back(stod(line.substr(lastCommaPosition+1)));
-
-        //add these training data points to the training matrices
-        inputMatrix.push_back(input);
-        outputMatrix.push_back(output);
-    }
-    trainingFile.close();
+    std::vector< std::vector< std::vector<double> > > dataFromFile = this->readDataFromFile(fpath);
+    std::vector< std::vector<double> > inputMatrix = dataFromFile[0];
+    std::vector< std::vector<double> > outputMatrix = dataFromFile[1];
 
     //take this data and train on it
     this->train(inputMatrix, outputMatrix, learningRate);
 }
 
 void NeuralNetwork::predict(std::string fpath){
-    std::vector< std::vector<double> > inputMatrix;
-    std::vector< std::vector<double> > outputMatrix;
-    std::ifstream trainingFile(fpath);
-    std::string line;
-    while(getline(trainingFile, line)){
-        //structure is x_1,...,x_n y_1,y_2,...,y_m (comma and space separated)
-        int spacePosition = (int)line.find(" ");
-        int lastCommaPosition = -1;
-        int nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
-
-        //get inputs
-        std::vector<double> input;
-        while(nextCommaPosition != std::string::npos && nextCommaPosition < spacePosition){
-            input.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
-            lastCommaPosition = nextCommaPosition;
-            nextCommaPosition = (int)line.find(",",nextCommaPosition+1);
-        }
-        input.push_back(stod(line.substr(lastCommaPosition+1,spacePosition)));
-
-        //get outputs
-        std::vector<double> output;
-        lastCommaPosition = spacePosition;
-        nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
-        while(nextCommaPosition != std::string::npos && nextCommaPosition < line.length()){
-            output.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
-        }
-        output.push_back(stod(line.substr(lastCommaPosition+1)));
-
-        //add these training data points to the training matrices
-        inputMatrix.push_back(input);
-        outputMatrix.push_back(output);
-    }
-    trainingFile.close();
-
+    std::vector< std::vector< std::vector<double> > > dataFromFile = this->readDataFromFile(fpath);
+    std::vector< std::vector<double> > inputMatrix = dataFromFile[0];
+    std::vector< std::vector<double> > outputMatrix = dataFromFile[1];
     std::cout << "Prediction on Data:" << std::endl;
     for(int i = 0; i < inputMatrix.size(); i++){
         this->forwardPropagate(inputMatrix[i]);
@@ -202,3 +141,42 @@ void NeuralNetwork::predict(std::string fpath){
     }
 }
 
+std::vector< std::vector< std::vector<double> > > NeuralNetwork::readDataFromFile(std::string fpath){
+    std::vector< std::vector<double> > inputMatrix;
+    std::vector< std::vector<double> > outputMatrix;
+    std::ifstream trainingFile(fpath);
+    std::string line;
+    while(getline(trainingFile, line)){
+        //structure is x_1,...,x_n y_1,y_2,...,y_m (comma and space separated)
+        int spacePosition = (int)line.find(" ");
+        int lastCommaPosition = -1;
+        int nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
+
+        //get inputs
+        std::vector<double> input;
+        while(nextCommaPosition != std::string::npos && nextCommaPosition < spacePosition){
+            input.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
+            lastCommaPosition = nextCommaPosition;
+            nextCommaPosition = (int)line.find(",",nextCommaPosition+1);
+        }
+        input.push_back(stod(line.substr(lastCommaPosition+1,spacePosition)));
+
+        //get outputs
+        std::vector<double> output;
+        lastCommaPosition = spacePosition;
+        nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
+        while(nextCommaPosition != std::string::npos && nextCommaPosition < line.length()){
+            output.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
+        }
+        output.push_back(stod(line.substr(lastCommaPosition+1)));
+
+        //add these training data points to the training matrices
+        inputMatrix.push_back(input);
+        outputMatrix.push_back(output);
+    }
+    trainingFile.close();
+    std::vector< std::vector< std::vector<double> > > dataFromFile;
+    dataFromFile.push_back(inputMatrix);
+    dataFromFile.push_back(outputMatrix);
+    return dataFromFile;
+}

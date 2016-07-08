@@ -32,6 +32,7 @@ protected:
     Neuron* generateNeuron(char type, int numInputs);
     void backPropagate(std::vector<double> correctOutput);
     void updateWeights(std::vector<double> inputs, double learningRate);
+    std::vector< std::vector< std::vector<double> > > readDataFromFile(std::string fpath);
 public:
     NeuralNetwork(std::vector<std::string> neuronTypes, int numInputs, bool normalized = false);
     ~NeuralNetwork();
