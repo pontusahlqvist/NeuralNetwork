@@ -54,20 +54,15 @@ int main(int argc, const char * argv[]) {
     
     std::cout << "*********  Pre-training Prediction **********" << std::endl;
     ANN.printWeightsByLayer();
-//    for(int i = 0; i < inputMatrix.size(); i++){
-//        ANN.forwardPropagate(inputMatrix[i]);
-//        ANN.printOutputs();
-//    }
+    ANN.predict("/Users/Pontus/Desktop/Other Stuff/MLPrep/untitled folder 2/NeuralNetwork/NeuralNetwork/training.csv");
+
     //train on the data set (XOR)
     double learningRate = 0.1;
     ANN.train("/Users/Pontus/Desktop/Other Stuff/MLPrep/untitled folder 2/NeuralNetwork/NeuralNetwork/training.csv", learningRate);
 
     std::cout << "\n\n*********  Post-training Prediction  **********" << std::endl;
     ANN.printWeightsByLayer();
-//    for(int i = 0; i < inputMatrix.size(); i++){
-//        ANN.forwardPropagate(inputMatrix[i]);
-//        ANN.printOutputs();
-//    }
+    ANN.predict("/Users/Pontus/Desktop/Other Stuff/MLPrep/untitled folder 2/NeuralNetwork/NeuralNetwork/training.csv");
 
     return 0;
 }

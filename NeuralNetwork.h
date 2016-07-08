@@ -39,6 +39,7 @@ public:
     void trainOnDataPoint(std::vector<double> inputs, std::vector<double> outputs, double learningRate);
     void train(std::vector< std::vector<double> > inputMatrix, std::vector< std::vector<double> > outputMatrix, double learningRate);
     void train(std::string fpath, double learningRate);
+    void predict(std::string fpath);
     void printWeightsByLayer();
     void printOutputs();
 };

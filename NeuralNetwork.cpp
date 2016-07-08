@@ -167,3 +167,52 @@ void NeuralNetwork::train(std::string fpath, double learningRate){
     this->train(inputMatrix, outputMatrix, learningRate);
 }
 
+void NeuralNetwork::predict(std::string fpath){
+    std::vector< std::vector<double> > inputMatrix;
+    std::vector< std::vector<double> > outputMatrix;
+    std::ifstream trainingFile(fpath);
+    std::string line;
+    while(getline(trainingFile, line)){
+        //structure is x_1,...,x_n y_1,y_2,...,y_m (comma and space separated)
+        int spacePosition = (int)line.find(" ");
+        int lastCommaPosition = -1;
+        int nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
+
+        std::cout << "line from file: " << line << std::endl;
+
+        //get inputs
+        std::vector<double> input;
+        while(nextCommaPosition != std::string::npos && nextCommaPosition < spacePosition){
+            input.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
+            lastCommaPosition = nextCommaPosition;
+            nextCommaPosition = (int)line.find(",",nextCommaPosition+1);
+            std::cout << input[input.size()-1] << " ";
+        }
+        input.push_back(stod(line.substr(lastCommaPosition+1,spacePosition)));
+        std::cout << input[input.size()-1] << std::endl;
+
+        //get outputs
+        std::vector<double> output;
+        lastCommaPosition = spacePosition;
+        nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
+        while(nextCommaPosition != std::string::npos && nextCommaPosition < line.length()){
+            output.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
+            std::cout << output[output.size()-1] << " ";
+        }
+        output.push_back(stod(line.substr(lastCommaPosition+1)));
+        std::cout << output[output.size()-1] << std::endl;
+
+        //add these training data points to the training matrices
+        inputMatrix.push_back(input);
+        outputMatrix.push_back(output);
+        std::cout << inputMatrix.size() << ", " << outputMatrix.size() << " - " << std::endl;
+    }
+    trainingFile.close();
+
+    std::cout << "Prediction on Data:" << std::endl;
+    for(int i = 0; i < inputMatrix.size(); i++){
+        this->forwardPropagate(inputMatrix[i]);
+        this->printOutputs();
+    }
+}
+
