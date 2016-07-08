@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <string>
+#include <fstream>
 #include "Layer.h"
 #include "SigmoidNeuron.h"
 #include "ExponentialNeuron.h"
@@ -37,6 +38,7 @@ public:
     std::vector<double> forwardPropagate(std::vector<double> inputs);
     void trainOnDataPoint(std::vector<double> inputs, std::vector<double> outputs, double learningRate);
     void train(std::vector< std::vector<double> > inputMatrix, std::vector< std::vector<double> > outputMatrix, double learningRate);
+    void train(std::string fpath, double learningRate);
     void printWeightsByLayer();
     void printOutputs();
 };

@@ -51,66 +51,23 @@ int main(int argc, const char * argv[]) {
     //XOR example
     int numInputs = 2;
     NeuralNetwork ANN(neuronTypes, numInputs, false);
-
-    std::vector< std::vector<double> > inputMatrix;
-    std::vector< std::vector<double> > outputMatrix;
-    std::vector<double> input1, input2, input3, input4;
-    std::vector<double> correctOutput1, correctOutput2, correctOutput3, correctOutput4;
-    std::ifstream trainingFile("/Users/Pontus/Desktop/Other Stuff/MLPrep/untitled folder 2/NeuralNetwork/NeuralNetwork/training.csv");
-    std::string line;
-    while(getline(trainingFile, line)){
-        //structure is x_1,...,x_n y_1,y_2,...,y_m (comma and space separated)
-        int spacePosition = (int)line.find(" ");
-        int lastCommaPosition = -1;
-        int nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
-
-        std::cout << "line from file: " << line << std::endl;
-
-        //get inputs
-        std::vector<double> input;
-        while(nextCommaPosition != std::string::npos && nextCommaPosition < spacePosition){
-            input.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
-            lastCommaPosition = nextCommaPosition;
-            nextCommaPosition = (int)line.find(",",nextCommaPosition+1);
-            std::cout << input[input.size()-1] << " ";
-        }
-        input.push_back(stod(line.substr(lastCommaPosition+1,spacePosition)));
-        std::cout << input[input.size()-1] << std::endl;
-
-        //get outputs
-        std::vector<double> output;
-        lastCommaPosition = spacePosition;
-        nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
-        while(nextCommaPosition != std::string::npos && nextCommaPosition < line.length()){
-            output.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
-            std::cout << output[output.size()-1] << " ";
-        }
-        output.push_back(stod(line.substr(lastCommaPosition+1)));
-        std::cout << output[output.size()-1] << std::endl;
-
-        //add these training data points to the training matrices
-        inputMatrix.push_back(input);
-        outputMatrix.push_back(output);
-        std::cout << inputMatrix.size() << ", " << outputMatrix.size() << " - " << std::endl;
-    }
-    trainingFile.close();
     
     std::cout << "*********  Pre-training Prediction **********" << std::endl;
     ANN.printWeightsByLayer();
-    for(int i = 0; i < inputMatrix.size(); i++){
-        ANN.forwardPropagate(inputMatrix[i]);
-        ANN.printOutputs();
-    }
+//    for(int i = 0; i < inputMatrix.size(); i++){
+//        ANN.forwardPropagate(inputMatrix[i]);
+//        ANN.printOutputs();
+//    }
     //train on the data set (XOR)
     double learningRate = 0.1;
-    ANN.train(inputMatrix, outputMatrix, learningRate);
+    ANN.train("/Users/Pontus/Desktop/Other Stuff/MLPrep/untitled folder 2/NeuralNetwork/NeuralNetwork/training.csv", learningRate);
 
     std::cout << "\n\n*********  Post-training Prediction  **********" << std::endl;
     ANN.printWeightsByLayer();
-    for(int i = 0; i < inputMatrix.size(); i++){
-        ANN.forwardPropagate(inputMatrix[i]);
-        ANN.printOutputs();
-    }
+//    for(int i = 0; i < inputMatrix.size(); i++){
+//        ANN.forwardPropagate(inputMatrix[i]);
+//        ANN.printOutputs();
+//    }
 
     return 0;
 }
