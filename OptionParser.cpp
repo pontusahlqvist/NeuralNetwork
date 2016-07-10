@@ -13,9 +13,10 @@ OptionParser::OptionParser(){
     descriptions["-h"] = "Display this help message and exit";
 }
 
-void OptionParser::add_option(std::string key, std::string description){
+void OptionParser::add_option(std::string key, std::string description, std::string defaultValue){
     keys.push_back(key);
     descriptions[key] = description;
+    optionValues[key] = defaultValue; //will be overwritten if this option is passed
 }
 
 void OptionParser::printDescriptions(){

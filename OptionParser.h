@@ -22,7 +22,7 @@ protected:
     void printDescriptions();
 public:
     OptionParser();
-    void add_option(std::string key, std::string description);
+    void add_option(std::string key, std::string description, std::string defaultValue = "");
     bool parse_options(int argc, const char** argv);
     //Three different methods to return value for various
     std::vector<std::string> getKeys();
