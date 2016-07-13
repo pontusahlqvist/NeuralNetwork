@@ -67,8 +67,8 @@ double Neuron::computeError(std::vector<double> errorContributions){
     return error;
 }
 
-double Neuron::computeError(double correctOutput){
-    error = output-correctOutput;
+double Neuron::computeError(double correctOutput, double normalization){
+    error = output/normalization-correctOutput;
     return error; //should only be used for output layers
 }
 

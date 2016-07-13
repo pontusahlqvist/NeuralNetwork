@@ -29,6 +29,7 @@ protected:
     std::vector<Neuron*> neurons;
     std::vector<double> outputs;
     std::vector<double> errors;
+    double normalization;
 public:
     Layer(std::vector<Neuron*> neurons, bool normalized);
     ~Layer();

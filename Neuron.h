@@ -37,7 +37,7 @@ public:
     void printWeights();
     double computeErrorContribution(int inputIndex);
     double computeError(std::vector<double> errorContributions);
-    double computeError(double correctOutput);
+    double computeError(double correctOutput, double normalization);
 };
 
 #endif /* defined(__NeuralNetwork__Neuron__) */

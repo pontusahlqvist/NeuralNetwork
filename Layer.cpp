@@ -17,6 +17,7 @@ Layer::Layer(std::vector<Neuron*> neurons, bool normalized){
     prevLayer = 0;
     nextLayer = 0;
     this->normalized = normalized;
+    normalization = 1.0;
 }
 
 Layer::~Layer(){
@@ -46,12 +47,13 @@ std::vector<double> Layer::computeLayer(){
 }
 
 std::vector<double> Layer::computeLayer(std::vector<double> alternateInputs){
-    double normalization = 0.0;
+    normalization = 0.0;
     for(int i = 0; i < numUnits; i++){
         outputs[i] = neurons[i]->compute(alternateInputs);
         normalization += fabs(outputs[i]);
     }
     if(!normalized || normalization == 0.0){
+        normalization = 1.0;
         return outputs;
     }
     for(int i = 0; i < numUnits; i++){
@@ -62,7 +64,7 @@ std::vector<double> Layer::computeLayer(std::vector<double> alternateInputs){
 
 std::vector<double> Layer::computeError(std::vector<double> alternateOutputs){
     for(int i = 0; i < numUnits; i++){
-        errors[i] = neurons[i]->computeError(alternateOutputs[i]);
+        errors[i] = neurons[i]->computeError(alternateOutputs[i],normalization);
     }
     return errors;
 }
