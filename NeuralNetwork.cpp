@@ -171,6 +171,8 @@ std::vector< std::vector< std::vector<double> > > NeuralNetwork::readDataFromFil
         nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
         while(nextCommaPosition != std::string::npos && nextCommaPosition < line.length()){
             output.push_back(stod(line.substr(lastCommaPosition+1,nextCommaPosition)));
+            lastCommaPosition = nextCommaPosition;
+            nextCommaPosition = (int)line.find(",",lastCommaPosition+1);
         }
         output.push_back(stod(line.substr(lastCommaPosition+1)));
 
