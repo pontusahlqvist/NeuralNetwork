@@ -35,11 +35,15 @@ double Neuron::computeActivation(std::vector<double> inputs){
     return activation;
 }
 
-void Neuron::incrementWeights(std::vector<double> inputs, double learningRate){
+double Neuron::incrementWeights(std::vector<double> inputs, double learningRate){
+    double largestWeightUpdate = 0.0;
+    largestWeightUpdate = std::max(largestWeightUpdate, fabs(learningRate*error)/(fabs(weights[0])+0.0001)); //note the 0.0001 to avoid div by zero
     weights[0] += -learningRate*1*error;
     for(int i = 0; i < numInputs; i++){ //note that bias is also among weights
+        largestWeightUpdate = std::max(largestWeightUpdate, fabs(learningRate*inputs[i]*error)/(fabs(weights[i+1])+0.0001)); //note the 0.0001 to avoid div by zero
         weights[i+1] += -learningRate*inputs[i]*error;
     } 
+    return largestWeightUpdate;
 }
 
 void Neuron::printWeights(){

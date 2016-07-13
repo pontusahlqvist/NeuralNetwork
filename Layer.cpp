@@ -83,16 +83,19 @@ std::vector<double> Layer::computeErrorContributionsForPrevLayer(int inputUnitIn
     return errorContributions;
 }
 
-void Layer::updateWeightsInLayer(std::vector<double> inputs, double learningRate){
+double Layer::updateWeightsInLayer(std::vector<double> inputs, double learningRate){
+    double largestWeightUpdateInLayer = 0.0;
     for(int i = 0; i < numUnits; i++){
-        neurons[i]->incrementWeights(inputs, learningRate);
+        largestWeightUpdateInLayer = std::max(largestWeightUpdateInLayer, neurons[i]->incrementWeights(inputs, learningRate));
     }
+    return largestWeightUpdateInLayer;
 }
 
-void Layer::updateWeightsInLayer(double learningRate){
+double Layer::updateWeightsInLayer(double learningRate){
     if(prevLayer != 0){
-        updateWeightsInLayer(prevLayer->outputs, learningRate);
+        return updateWeightsInLayer(prevLayer->outputs, learningRate);
     }
+    return 0.0;
 }
 
 

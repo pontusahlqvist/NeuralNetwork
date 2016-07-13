@@ -12,6 +12,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <algorithm>
 #include "Layer.h"
 #include "SigmoidNeuron.h"
 #include "ExponentialNeuron.h"
@@ -31,13 +32,13 @@ protected:
     int numInputs;
     Neuron* generateNeuron(char type, int numInputs);
     void backPropagate(std::vector<double> correctOutput);
-    void updateWeights(std::vector<double> inputs, double learningRate);
+    double updateWeights(std::vector<double> inputs, double learningRate);
     std::vector< std::vector< std::vector<double> > > readDataFromFile(std::string fpath);
 public:
     NeuralNetwork(std::vector<std::string> neuronTypes, int numInputs, bool normalized = false);
     ~NeuralNetwork();
     std::vector<double> forwardPropagate(std::vector<double> inputs);
-    void trainOnDataPoint(std::vector<double> inputs, std::vector<double> outputs, double learningRate);
+    double trainOnDataPoint(std::vector<double> inputs, std::vector<double> outputs, double learningRate);
     void train(std::vector< std::vector<double> > inputMatrix, std::vector< std::vector<double> > outputMatrix, double learningRate);
     void train(std::string fpath, double learningRate);
     void predict(std::string fpath);

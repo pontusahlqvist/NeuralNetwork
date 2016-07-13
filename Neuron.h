@@ -33,7 +33,7 @@ public:
     virtual ~Neuron();
     virtual double compute(std::vector<double> inputs) = 0;
     virtual double computeDerivative() = 0;
-    void incrementWeights(std::vector<double> inputs, double learningRate);
+    double incrementWeights(std::vector<double> inputs, double learningRate);
     void printWeights();
     double computeErrorContribution(int inputIndex);
     double computeError(std::vector<double> errorContributions);

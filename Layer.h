@@ -41,8 +41,8 @@ public:
     std::vector<double> computeError(std::vector<double> alternateOutputs); //this allows the layer to also be used as an output layer.
     std::vector<double> computeErrorContributionsForPrevLayer(int inputUnitIndex); //this computes the contribution of each neuron's error for use in prior layer
 
-    void updateWeightsInLayer(std::vector<double> inputs, double learningRate);
-    void updateWeightsInLayer(double learningRate);
+    double updateWeightsInLayer(std::vector<double> inputs, double learningRate);
+    double updateWeightsInLayer(double learningRate);
 };
 
 #endif /* defined(__NeuralNetwork__Layer__) */

@@ -98,25 +98,29 @@ void NeuralNetwork::printOutputs(){
     std::cout << std::endl;
 }
 
-void NeuralNetwork::updateWeights(std::vector<double> inputs, double learningRate){
-    layers[0]->updateWeightsInLayer(inputs, learningRate);
+double NeuralNetwork::updateWeights(std::vector<double> inputs, double learningRate){
+    double largestWeightUpdate = 0.0;
+    largestWeightUpdate = std::max(largestWeightUpdate, layers[0]->updateWeightsInLayer(inputs, learningRate));
     for(int i = 1; i < layers.size(); i++){
-        layers[i]->updateWeightsInLayer(learningRate);
+        largestWeightUpdate = std::max(largestWeightUpdate, layers[i]->updateWeightsInLayer(learningRate));
     }
+    return largestWeightUpdate;
 }
 
-void NeuralNetwork::trainOnDataPoint(std::vector<double> inputs, std::vector<double> outputs, double learningRate){
+double NeuralNetwork::trainOnDataPoint(std::vector<double> inputs, std::vector<double> outputs, double learningRate){
     //forward prop, backward prop, update weights
     this->forwardPropagate(inputs);
     this->backPropagate(outputs);
-    this->updateWeights(inputs, learningRate);
+    return this->updateWeights(inputs, learningRate);
 }
 
 void NeuralNetwork::train(std::vector<std::vector<double> > inputMatrix, std::vector<std::vector<double> > outputMatrix, double learningRate){
     int numIters = 10000;
-    for(int iter = 0; iter < numIters; iter++){
+    double weightUpdateConvergenceThreshold = 0.001; //0.1% update - in case it finishes early
+    double largestWeightUpdate = weightUpdateConvergenceThreshold + 1.0; //larger than convergence threshold.
+    for(int iter = 0; iter < numIters && largestWeightUpdate > weightUpdateConvergenceThreshold; iter++){
         for(int trainingIndex = 0; trainingIndex < inputMatrix.size(); trainingIndex++){
-            this->trainOnDataPoint(inputMatrix[trainingIndex], outputMatrix[trainingIndex], learningRate);
+            largestWeightUpdate = this->trainOnDataPoint(inputMatrix[trainingIndex], outputMatrix[trainingIndex], learningRate);
         }
     }
 }
